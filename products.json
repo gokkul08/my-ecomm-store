@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Space Jelly Combo",
+    "description": "Find in-depth information about Next.js features and API.",
+    "image": "/images/spacejelly-combo.jpg",
+    "price": 20.00,
+    "id": "price_1IY00VFT6NAoTpFj7Mon0ncw"
+  },
+  {
+    "title": "Space Jelly Stickers",
+    "description": "Learn about Next.js in an interactive course with quizzes!",
+    "image": "/images/spacejelly-stickers.jpg",
+    "price": 10.00,
+    "id": "price_1IY00qFT6NAoTpFjLHmFiWUC"
+  },
+  {
+    "title": "Space Jelly T-shirt",
+    "description": "Discover and deploy boilerplate example Next.js projects.",
+    "image": "/images/spacejelly-tshirt.jpg",
+    "price": 15.00,
+    "id": "price_1IXzylFT6NAoTpFjMKu9mNjj"
+  }
+]
