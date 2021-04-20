@@ -1,11 +1,11 @@
 import Head from 'next/head'
-import { FaShoppingCart } from 'react-icons/fa';
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import products from '../products';
-import useCart from "../hooks/use-cart";
+import { useCart } from "../hooks/use-cart";
 
 export default function Home() {
-    const { cart, updateCart, subTotal, totalItems, addToCart, checkOut } = useCart();
+    const { addToCart } = useCart();
 
     return (
         <div className={styles.container}>
@@ -23,29 +23,20 @@ export default function Home() {
                     The best online store for all your needs
                 </p>
 
-                <p className={styles.description}>
-                    <strong>Items: {totalItems}</strong>
-                    <br/>
-                    <strong>Total Cost:</strong> {subTotal}
-                    <br/>
-                    <button className={`${styles.button} ${styles.cartButton}`} onClick={checkOut}>
-                        <FaShoppingCart />
-                        Check Out
-                    </button>
-                </p>
-
                 <ul className={styles.grid}>
                     {
                         products.map(product => {
                             const {title, price, description, image, id} = product;
                             return (
                                 <li key={id} className={styles.card}>
-                                    <a href="#">
-                                        <img src={image} alt={title}/>
-                                        <h3>{title}</h3>
-                                        <p>${price}</p>
-                                        <p>{description}</p>
-                                    </a>
+                                    <Link href={`products/${id}`}>
+                                        <a>
+                                            <img src={image} alt={title}/>
+                                            <h3>{title}</h3>
+                                            <p>${price}</p>
+                                            <p>{description}</p>
+                                        </a>
+                                    </Link>
                                     <button className={styles.button} onClick={() => {
                                         addToCart({
                                             id,

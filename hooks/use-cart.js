@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, createContext, useContext, useEffect } from 'react';
 import products from "../products";
 import {initiateCheckout} from "../lib/payments";
 
@@ -6,9 +6,24 @@ const defaultCart = {
     products: {}
 };
 
-export default function useCart() {
+export const CartContext = createContext();
+
+export function useCartState() {
 
     const [cart, updateCart] = useState(defaultCart);
+
+    useEffect(() => {
+        const stateFromStorage = window.localStorage.getItem('spacejelly_cart');
+        const data = stateFromStorage && JSON.parse(stateFromStorage);
+        if (data) {
+            updateCart(data);
+        }
+    }, []);
+
+    useEffect(() => {
+        const data = JSON.stringify(cart);
+        window.localStorage.setItem('spacejelly_cart', data);
+    }, [cart]);
 
     const cartItems = Object.keys(cart.products).map(key => {
         const product = products.find(({id}) => `${id}` === `${key}`);
@@ -26,8 +41,6 @@ export default function useCart() {
         return accumulator + quantity;
     }, 0);
 
-    console.log(subTotal);
-
     function addToCart({id} = {}) {
         updateCart(prev => {
             let cartState = {...prev};
@@ -39,6 +52,18 @@ export default function useCart() {
                     id,
                     quantity: 1
                 }
+            }
+
+            return cartState;
+        })
+    }
+
+    function updateItem({ id, quantity }) {
+        updateCart(prev => {
+            let cartState = {...prev};
+
+            if (cartState.products[id]) {
+                cartState.products[id].quantity = quantity;
             }
 
             return cartState;
@@ -58,9 +83,16 @@ export default function useCart() {
 
     return {
         cart,
+        cartItems,
         subTotal,
         totalItems,
         addToCart,
+        updateItem,
         checkOut
     }
-};
+}
+
+export function useCart() {
+    const cart = useContext(CartContext);
+    return cart;
+}
